@@ -31,22 +31,55 @@ int check_seen(vector<int> seen, int num) {
     return 0;
 }
 
-int main() {
-    vector<int> nums;
+int part_one(vector<int> nums) {
     vector<int> seen;
 
-    nums = read_file();
     for (int i = 0; i < nums.size(); i++) {
         int j = 2020 - nums[i];   
         if (check_seen(nums, j)) {
-            cout << nums[i] << endl;
-            cout << j << endl;
             int prod = j*nums[i];
-            cout << prod << endl;
+            cout << "Part One: " << prod << endl;
             return 0;
         }
         seen.push_back(i);
     }
 
+    return 1;
+}
+
+int part_two(vector<int> nums) {
+    vector<int> seen;
+    vector<int> two_sum;
+
+    for (int i = 0; i < nums.size(); i++) {
+        for (int j = 0; j < two_sum.size(); j++) {
+            int k = 2020 - nums[i] - two_sum[j];
+            if (check_seen(nums, k)) {
+                int prod = k * nums[i] * two_sum[j];
+                cout << "Part Two: " << prod << endl;
+                return 0;
+            }
+        }
+        seen.push_back(nums[i]);
+        two_sum.push_back(nums[i]);
+    }
+
+    return 1;
+}
+
+int main() {
+    vector<int> nums; 
+
+    nums = read_file();
+    if (part_one(nums)) {
+        cout << "error in part one." << endl;
+        return 1;
+    }
+
+    if (part_two(nums)) {
+        cout << "Error in Part Two." << endl;
+        return 1;
+    }
+    
     return 0;
 }
